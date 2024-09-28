@@ -24,29 +24,25 @@ router.delete("/:id", deleteGuest);
 
 // Thêm khách đến thăm
 router.post('/visit', async (req, res) => {
-  const { student_id, guest_name, guest_identity_card, guest_birth_date, visit_dates } = req.body;
+  const { _id, guest_name, guest_identity_card, guest_birth_date, student_id, visit_dates } = req.body;
 
-  try {
-      // Tạo khách mới
-      const newGuest = {
-          name: guest_name,
-          identity_card: guest_identity_card,
-          birth_date: guest_birth_date,
-          visits: [{ student_id, visit_dates }]
-      };
+    const guest = {
+        _id: _id, // Đảm bảo bạn truyền _id vào
+        name: guest_name,
+        identity_card: guest_identity_card,
+        birth_date: new Date(guest_birth_date),
+        visits: [{
+            student_id: student_id,
+            visit_dates: visit_dates.map(date => new Date(date)) // Chuyển đổi ngày
+        }]
+    };
 
-      const guest = await Guest.create(newGuest);
-
-      // Cập nhật danh sách khách của sinh viên
-      await Student.updateOne(
-          { _id: student_id },
-          { $push: { guests: { guest_id: guest._id, name: guest_name, identity_card: guest_identity_card, birth_date: guest_birth_date, visit_dates } } }
-      );
-
-      res.status(201).json(guest);
-  } catch (error) {
-      res.status(500).json({ error: error.message });
-  }
+    try {
+        const newGuest = await Guest.create(guest);
+        res.status(201).json(newGuest);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 });
 
 module.exports = router;

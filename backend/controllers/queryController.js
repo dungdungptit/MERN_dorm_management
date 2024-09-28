@@ -57,22 +57,39 @@ exports.getServicesByDate = async (req, res) => {
 
 // Truy vấn khách đến thăm sinh viên
 exports.getGuestVisits = async (req, res) => {
-  const students = await Student.aggregate([
-    {
-      $unwind: "$guests"
-    },
-    {
-      $group: {
-        _id: "$name",
-        guests: {
-          $push: {
-            guest_name: "$guests.name",
-            visit_count: "$guests.visit_count",
-            visit_dates: "$guests.visit_dates"
-          }
-        }
-      }
-    }
-  ]);
-  res.json(students);
+  const { startDate, endDate } = req.query; // Nhận tham số từ query
+
+  try {
+    const students = await Student.find({});
+    
+    const result = students.map(student => {
+      const guests = student.guests.filter(guest => 
+        guest.visit_dates.some(date => {
+          const visitDate = new Date(date);
+          return visitDate >= new Date(startDate) && visitDate <= new Date(endDate);
+        })
+      );
+
+      return {
+        student_id: student._id,
+        name: student.name,
+        guests: guests.map(guest => ({
+          guest_id: guest.guest_id,
+          guest_name: guest.name,
+          visit_count: guest.visit_dates.filter(date => {
+            const visitDate = new Date(date);
+            return visitDate >= new Date(startDate) && visitDate <= new Date(endDate);
+          }).length,
+          visit_dates: guest.visit_dates.filter(date => {
+            const visitDate = new Date(date);
+            return visitDate >= new Date(startDate) && visitDate <= new Date(endDate);
+          })
+        }))
+      };
+    });
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
