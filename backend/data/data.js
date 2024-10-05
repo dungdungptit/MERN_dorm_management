@@ -9,24 +9,7 @@ db.students.insertMany([
         hometown: "Ha Noi",
         room_id: "R001",
         monthly_rent: 2000000,
-        services_used: [
-            {
-                service_id: "SV001",
-                service_name: "Giặt là",
-                times_used: 5,
-                total_cost: 50000,
-                start_date: ISODate("2023-08-01"),
-                end_date: ISODate("2023-08-31")
-            },
-            {
-                service_id: "SV002",
-                service_name: "Trông xe",
-                times_used: 10,
-                total_cost: 100000,
-                start_date: ISODate("2023-08-01"),
-                end_date: ISODate("2023-08-31")
-            }
-        ],
+        services_used: [],
         guests: [
             {
                 guest_id: "G001",
@@ -59,10 +42,7 @@ db.students.insertMany([
         ],
         guests: [],
         total_amount_due: 1650000
-    }
-]);
-
-db.students.insertMany([
+    },
     {
         _id: "B24CHKH004",
         name: "Đặng Quang Dũng",
@@ -264,10 +244,7 @@ db.students.insertMany([
 // 2. Nhập dữ liệu phòng
 db.rooms.insertMany([
     { _id: "R001", room_type: "Phòng đơn", monthly_rent: 2000000, max_occupants: 1, occupants: ["S001"] },
-    { _id: "R002", room_type: "Phòng đôi", monthly_rent: 1500000, max_occupants: 2, occupants: ["S002"] }
-]);
-
-db.rooms.insertMany([
+    { _id: "R002", room_type: "Phòng đôi", monthly_rent: 1500000, max_occupants: 2, occupants: ["S002"] },
     { _id: "R003", room_type: "Phòng đơn", monthly_rent: 1550000, max_occupants: 1, occupants: ["B20DCCN101"] },
     { _id: "R004", room_type: "Phòng đơn", monthly_rent: 1700000, max_occupants: 1, occupants: ["B25DCAT206"] },
     { _id: "R005", room_type: "Phòng đôi", monthly_rent: 1600000, max_occupants: 2, occupants: ["B25DCCN106", "B19DCCN084"] },
@@ -286,10 +263,7 @@ db.services.insertMany([
 
 // 4. Nhập dữ liệu khách
 db.guests.insertMany([
-    { _id: "G001", name: "Tran Van B", identity_card: "987654321", birth_date: ISODate("1999-10-12"), visits: [{ student_id: "S001", visit_dates: [ISODate("2023-08-15"), ISODate("2023-08-20")] }] }
-]);
-
-db.guests.insertMany([
+    { _id: "G001", name: "Tran Van B", identity_card: "987654321", birth_date: ISODate("1999-10-12"), visits: [{ student_id: "S001", visit_dates: [ISODate("2023-08-15"), ISODate("2023-08-20")] }] },
     { _id: "G005", name: "Nguyễn Văn B", identity_card: "987654321", birth_date: new Date("1995-04-12"), visits: [{ student_id: "B24CHKH004", visit_dates: [new Date("2023-07-01"), new Date("2023-07-15"), new Date("2023-07-20")] }] },
     { _id: "G002", name: "Lê Văn C", identity_card: "654321987", birth_date: new Date("1996-03-20"), visits: [{ student_id: "B19DCCN084", visit_dates: [new Date("2023-07-10"), new Date("2023-07-25")] }] },
     { _id: "G003", name: "Trần Thị D", identity_card: "789123456", birth_date: new Date("1998-05-10"), visits: [{ student_id: "B20DCCN101", visit_dates: [new Date("2023-07-15")] }] },
@@ -308,9 +282,6 @@ db.parking.insertMany([
             { take_time: ISODate("2023-08-02T08:00:00Z"), return_time: ISODate("2023-08-02T18:00:00Z"), fee: 3000 }
         ],
         monthly_ticket: { active: true, free_entries: 2 }
-    }
-]);
-
-db.parkings.insertMany([
+    },
     { vehicle_id: "V001", license_plate: "29A-12345", student_id: "B24CHKH004", entries: [{ entry_time: new Date("2023-07-01T08:00:00"), exit_time: new Date("2023-07-01T18:00:00"), extra_fee: 0 }], monthly_ticket: { free_entries_left: 3, extra_fees: 0 } }
 ]);

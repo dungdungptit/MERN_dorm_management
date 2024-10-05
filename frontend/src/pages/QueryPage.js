@@ -23,7 +23,7 @@ const QueryPage = () => {
       <GuestsInfo />
 
       <ServiceRevenue />
-      <button onClick={fetchGuestsStudents}>test</button>
+      {/* <button onClick={fetchGuestsStudents}>test</button> */}
       
     </div>
   );
